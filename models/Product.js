@@ -19,8 +19,8 @@ Product.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    product_name: {
-      type: DataTypes.FLOAT, // DECIMAL
+    price: {
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     stock: {

@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   try {
     const tagData = await Tag.findAll({
       // be sure to include its associated Product data
-      include: [{ model: Product}], // might have to put other stuff here?
+      include: [{ model: Product, through: ProductTag}], // might have to put other stuff here?
     });
     res.status(200).json(tagData);
   } catch (err) {
@@ -19,9 +19,12 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   // find a single tag by its `id`
   try {
-    const tagData = await Tag.findByPk(req.params.id, {
+    const tagData = await Tag.findOne({
       // be sure to include its associated Product data
-      include: [{ model: Product }],
+      include: [{ model: Product, through: ProductTag}],
+      where: {
+        id: req.params.id,
+      }
     });
     if (!tagData) {
       res.status(404).json({ message: 'No tag found with that id!' });
@@ -46,7 +49,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => { // Surely it isnt this easy and needs more similar to product routes
   // update a tag's name by its `id` value
   try {
-    const tagData = await User.update({tag_name: req.body}, { // unsure about the body format
+    const tagData = await Tag.update(req.body, { // unsure about the body format
       where: {
         id: req.params.id,
       }

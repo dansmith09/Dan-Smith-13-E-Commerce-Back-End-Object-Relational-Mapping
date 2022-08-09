@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   try {
     const categoryData = await Category.findAll({
       // be sure to include its associated Products
-      include: [{ model: Product, through: Product, as: 'category_products'}],
+      include: [Product],
     });
     res.status(200).json(categoryData);
   } catch (err) {
@@ -19,9 +19,12 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   try {
-    const categoryData = await Category.findByPk(req.params.id, {
+    const categoryData = await Category.findOne({
       // be sure to include its associated Products
-      include: [{ model: Product, through: Product, as: 'category_products'}],
+      include: [Product],
+      where: {
+        id: req.params.id,
+      }
     });
     if (!categoryData) {
       res.status(404).json({ message: 'No category found with that id!' });
@@ -46,7 +49,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) =>{
   // update a category by its `id` value
   try {
-    const categoryData = await User.update({category_name: req.body}, { // unsure about the body format
+    const categoryData = await Category.update(req.body, { // unsure about the body format
       where: {
         id: req.params.id,
       }

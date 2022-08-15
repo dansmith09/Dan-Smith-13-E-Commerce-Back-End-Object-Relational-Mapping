@@ -44,7 +44,7 @@ node server.js
 ```
 
 
-**Video Demonstrations**
+**Video Demonstration**
 ---
 
 [![Demo](./assets/demo.png)](https://www.youtube.com/watch?v=oe_ALU50Y0M "Click here to watch the video!")
